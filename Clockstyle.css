@@ -38,7 +38,6 @@ body {
     translate: calc((50% - 2rem) * -1) 0;
   }
 }
-/* semi transparent mask to hide not active time data*/
 .clock::before {
   content: "";
   position: absolute;
@@ -72,32 +71,32 @@ body {
   border-radius: 50%;
 }
 
-/* years */
+
 .clock > div:nth-of-type(1) {
   --clock-d: calc(var(--clock-size) - 20px);
 }
-/* seconds */
+
 .clock > div:nth-of-type(2) {
   --clock-d: calc(var(--clock-size) - 130px);
 }
-/* minutes */
+
 .clock > div:nth-child(3) {
   --clock-d: calc(var(--clock-size) - 195px);
 }
 
-/* hours */
+
 .clock > div:nth-child(4) {
   --clock-d: calc(var(--clock-size) - 260px);
 }
-/* day numbers */
+
 .clock > div:nth-child(5) {
   --clock-d: calc(var(--clock-size) - 350px);
 }
-/* month names  */
+
 .clock > div:nth-child(6) {
   --clock-d: calc(var(--clock-size) - 470px);
 }
-/* day names*/
+
 .clock > div:nth-child(7) {
   --clock-d: calc(var(--clock-size) - 600px);
 
@@ -125,6 +124,9 @@ body {
 
 .clock > .current-lang-display {
   position: absolute;
+  display: flex;
+  flex-direction: row;
+  line-height: 1;
   inset: 0;
   margin: auto;
   z-index: 100;
@@ -146,7 +148,7 @@ body {
     background-color: white;
   }
 }
-/* time seperators */
+
 .current-lang-display::before,
 .current-lang-display::after {
   content: ": ";
@@ -163,7 +165,7 @@ body {
   translate: 250px -10px;
 }
 
-/* Dialog styles */
+
 dialog {
   width: min(calc(100% - 2rem), 380px);
   padding: 1rem;
@@ -181,7 +183,7 @@ dialog {
   transition: opacity 500ms ease-in,
     scale 500ms cubic-bezier(0.28, -0.55, 0.27, 1.55);
 }
-/* Backdrop styling */
+
 dialog[open]::backdrop {
   background-color: rgba(from black r g b / 0.5);
   backdrop-filter: blur(3px);
@@ -189,7 +191,7 @@ dialog[open]::backdrop {
   @starting-style {
     opacity: 0;
   }
-  transition: opacity 1000ms ease-in; /* this doesn't appear to be working */
+  transition: opacity 1000ms ease-in; 
 }
 
 
@@ -236,6 +238,7 @@ dialog .btn-dialog-close {
   display: grid;
   place-content: center;
   transform-origin: center;
+  color: white;
 
   &.active {
     color: white;
