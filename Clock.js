@@ -1,6 +1,6 @@
 console.clear();
 
-// array of JavaScript supported languages for local dates (not definitive)
+
 const languageFlags = [
   { code: 'ar-SA', name: 'Arabic (Saudi Arabia)', flag: '🇸🇦' },
   { code: 'cs-CZ', name: 'Czech (Czech Republic)', flag: '🇨🇿' },
@@ -34,15 +34,11 @@ const languageFlags = [
   { code: 'zh-CN', name: 'Chinese (Simplified, China)', flag: '🇨🇳' },
 ];
 
-const RADIUS = 140; // Radius of the circle for flag buttons
-/*
+const RADIUS = 140; 
 
-  { code: 'zh-TW', name: 'Chinese (Traditional, Taiwan)', flag: '🇹🇼' },
-*/
 
-// map for default regions based on languageFlags
 const defaultRegions = languageFlags.reduce((map, lang) => {
-  const baseLang = lang.code.split('-')[0]; // Extract the base language (e.g., 'en' from 'en-US')
+  const baseLang = lang.code.split('-')[0]; 
   if (!map[baseLang]) {
     map[baseLang] = lang.code;
   }
@@ -50,10 +46,10 @@ const defaultRegions = languageFlags.reduce((map, lang) => {
 }, {});
 
 function getLocale() {
-  // cet the primary language from navigator.languages or fallback to navigator.language
+  
   let language = (navigator.languages && navigator.languages[0]) || navigator.language || 'en-US';
 
-  // not all browsers return the complete lang code so we have to add it from the mapped values
+  
   if (language.length === 2) {
     language = defaultRegions[language] || `${language}-${language.toUpperCase()}`;
   }
@@ -71,7 +67,7 @@ const closeButton = document.getElementById('btn-dialog-close');
 function drawClockFaces() {
     const clockFaces = document.querySelectorAll('.clock-face');
 
-    // Get the current date details
+    
     const currentDate = new Date();
     const currentDay = currentDate.getDate();
     const currentMonth = currentDate.getMonth();
@@ -94,13 +90,13 @@ function drawClockFaces() {
 
         const clockType = clockFace.getAttribute('data-clock');
         const numbers = parseInt(clockFace.getAttribute('data-numbers'), 10);
-        const RADIUS = (clockFace.offsetWidth / 2) - 20; // Adjusted for padding
+        const RADIUS = (clockFace.offsetWidth / 2) - 20; 
         const center = clockFace.offsetWidth / 2;
 
         let valueSet;
         let currentValue;
 
-        // define the value set and current value for each clock type
+        
         switch (clockType) {
             case 'seconds':
                 valueSet = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
@@ -134,7 +130,7 @@ function drawClockFaces() {
                 return;
         }
 
-        // create and position elements on the clock face
+        
         valueSet.forEach((value, i) => {
             const angle = (i * (360 / numbers));
             const x = center + RADIUS * Math.cos((angle * Math.PI) / 180);
@@ -150,7 +146,7 @@ function drawClockFaces() {
             clockFace.appendChild(element);
         });
 
-        // rotation to align the current value to the 3 o'clock position
+        
         const currentIndex = valueSet.indexOf(
             typeof valueSet[0] === 'string' ? String(currentValue) : currentValue
         );
@@ -171,9 +167,9 @@ function rotateClockFaces() {
         const currentMinute = now.getMinutes();
         const currentHour = now.getHours();
         const currentDay = now.getDate();
-        const currentMonth = now.getMonth(); // 0-indexed
+        const currentMonth = now.getMonth(); 
         const currentYear = now.getFullYear();
-        const currentWeekday = now.getDay(); // 0 = Sunday, 6 = Saturday
+        const currentWeekday = now.getDay(); 
 
         clockFaces.forEach(clockFace => {
             const clockType = clockFace.getAttribute('data-clock');
@@ -200,7 +196,7 @@ function rotateClockFaces() {
                     currentValue = currentYear - 2000;
                     break;
                 case 'day-names':
-                    currentValue = currentWeekday; // 0 = Sunday
+                    currentValue = currentWeekday; 
                     break;
                 default:
                     return;
@@ -208,22 +204,22 @@ function rotateClockFaces() {
 
             const targetAngle = (360 / totalNumbers) * currentValue;
 
-            // Retrieve the last angle for this clock face
+            
             const clockId = clockFace.id || clockType;
             const lastAngle = lastAngles[clockId] || 0;
 
-            // Adjust for shortest rotation direction
+            
             const delta = targetAngle - lastAngle;
-            const shortestDelta = ((delta + 540) % 360) - 180; // Normalize between -180 and 180
+            const shortestDelta = ((delta + 540) % 360) - 180; 
 
-            // update the clock face rotation
+            
             const newAngle = lastAngle + shortestDelta;
             clockFace.style.transform = `rotate(${newAngle * -1}deg)`;
 
-            // store the new angle
+            
             lastAngles[clockId] = newAngle;
 
-            // "active" class
+            
             const numbers = clockFace.querySelectorAll('.number');
             numbers.forEach((number, index) => {
                 if (index === currentValue) {
@@ -233,7 +229,7 @@ function rotateClockFaces() {
                 }
             });
         });
-        // request next frame
+        
         requestAnimationFrame(updateRotations);
     }
 
@@ -241,7 +237,7 @@ function rotateClockFaces() {
 }
 
 
-// create language options
+
 function createLanguageOptions() {
   const centerX = languageOptionsContainer.offsetWidth / 2;
   const centerY = languageOptionsContainer.offsetHeight / 2;
@@ -274,7 +270,7 @@ function createLanguageOptions() {
     radioWrapper.appendChild(flag);
     languageOptionsContainer.appendChild(radioWrapper);
 
-    // Handle hover: display language name in the center of the parent container
+   
     radioWrapper.addEventListener('mouseover', () => showTitle(lang.name, radioWrapper));
     radioWrapper.addEventListener('mouseleave', () => hideTitle());
   
@@ -289,15 +285,15 @@ function createLanguageOptions() {
   });
 }
 
-// Show title (language name) in the center
-let titleDisplay = null; // Declare titleDisplay globally for reuse
+
+let titleDisplay = null; 
 function showTitle(languageName) {
   if (titleDisplay) {
     titleDisplay.remove();
   }
   titleDisplay = document.createElement('div');
     titleDisplay.classList.add('language-title');
-    titleDisplay.textContent = languageName;  // Update the title with the language name
+    titleDisplay.textContent = languageName; 
     languageOptionsContainer.appendChild(titleDisplay);
  
   
@@ -307,7 +303,7 @@ function hideTitle() {
     titleDisplay.textContent = '';
   }
 }
-// Set current language display button flag and title
+
 function setCurrentLangDisplay(lang) {
   currentLangDisplay.textContent = lang.flag;
   currentLangDisplay.title = lang.name;
@@ -338,15 +334,15 @@ function closeDialogOnClickOutside(e) {
   }
 }
 
-// dialog close button event
+
 closeButton.addEventListener('click', closeDialog);
 
-// current language display - open dialog with lang buttons
+
 currentLangDisplay.addEventListener('click', openDialog);
-//console.log(locale);
 
 
-// initalize
+
+
 drawClockFaces();
 rotateClockFaces();
 setCurrentLangDisplay(languageFlags.find(lang => lang.code === locale));
